@@ -371,6 +371,34 @@ main { min-height: 70vh; }
 .cat-active .cat-circle { background: var(--mustard); border-color: var(--mustard); color: #3b2c08; box-shadow: 0 10px 20px -12px rgba(44, 46, 38, .5); }
 .cat-active .cat-label { color: var(--forest); font-weight: 700; }
 
+/* ---------- Admin: fotos, listado y edición ---------- */
+.small { font-size: .85rem; }
+.form-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.form-head h2 { margin: 0; font-size: 1.25rem; }
+.photo-manager { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: .6rem; }
+.photo-thumb, .photo-add {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 10px; overflow: hidden;
+  background: #e9e1cf; border: 1px solid var(--line);
+}
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.photo-thumb.is-new { outline: 2px solid var(--mustard); outline-offset: -2px; }
+.photo-thumb button {
+  position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%;
+  border: 0; background: rgba(44, 46, 38, .75); color: #fff; cursor: pointer; line-height: 1; font-size: 1rem;
+}
+.photo-add { display: grid; place-items: center; background: var(--sage-soft); border-style: dashed; border-color: var(--sage); color: var(--forest); cursor: pointer; }
+.photo-add input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.photo-add span { font-weight: 500; font-size: .9rem; }
+.admin-list li { align-items: flex-start; }
+.admin-list li.is-editing { background: var(--sage-soft); border-radius: 10px; padding-inline: .6rem; }
+.admin-thumb { width: 56px; height: 70px; flex: 0 0 56px; border-radius: 8px; overflow: hidden; background: #e9e1cf; display: grid; place-items: center; color: var(--muted); font-family: var(--hand); font-size: 1.2rem; }
+.admin-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.admin-item-info { flex: 1; display: flex; flex-direction: column; gap: .25rem; min-width: 0; }
+.admin-item-actions { display: flex; flex-direction: column; gap: .4rem; align-items: flex-end; }
+.admin-list .row-actions { flex-wrap: wrap; }
+.star-toggle { display: inline-flex; align-items: center; gap: .3rem; font-size: .85rem; color: var(--forest); cursor: pointer; }
+.btn-link.danger { color: #b5543a; }
+
 /* ---------- Destacados (carrusel horizontal) ---------- */
 .feat { position: relative; }
 .feat-track {

@@ -62,6 +62,12 @@ export async function setProductStatus(id: string, status: ProductStatus) {
   if (error) throw error;
 }
 
+export async function setProductDestacado(id: string, destacado: boolean) {
+  if (!supabase) return;
+  const { error } = await supabase.from('products').update({ destacado }).eq('id', id);
+  if (error) throw error;
+}
+
 export async function deleteProduct(id: string) {
   if (!supabase) return;
   const { error } = await supabase.from('products').delete().eq('id', id);
