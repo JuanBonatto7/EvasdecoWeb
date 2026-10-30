@@ -17,4 +17,7 @@ export interface Product {
   created_at: string;
 }
 
+/* Máximo de fotos por publicación (se muestran en el carrusel). */
+export const MAX_FOTOS = 5;
+
 export const CATEGORIAS = ['Ropa', 'Calzado', 'Mochilas', 'Accesorios', 'Yerbas', 'Varios'] as const;

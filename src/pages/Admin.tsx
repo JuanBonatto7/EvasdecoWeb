@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { supabase, supabaseConfigured } from '../lib/supabase';
 import { useSession } from '../lib/auth';
 import { deleteProduct, formatPrecio, listProducts, saveProduct, setProductStatus, uploadPhoto } from '../lib/products';
-import { CATEGORIAS, type Estado, type Product, type ProductStatus } from '../lib/types';
+import { CATEGORIAS, MAX_FOTOS, type Estado, type Product, type ProductStatus } from '../lib/types';
 
 const ESTADOS: Estado[] = ['Como nuevo', 'Muy buen estado', 'Buen estado', 'Usado'];
 
@@ -118,8 +118,15 @@ function Dashboard() {
           <h2>Nueva publicación</h2>
 
           <label className="photo-drop">
-            <input type="file" accept="image/*" multiple capture="environment" onChange={(e) => setPhotos(Array.from(e.target.files ?? []))} />
-            <span>{photos.length ? `${photos.length} foto(s) elegidas` : 'Tocá para sacar o elegir fotos'}</span>
+            <input
+              type="file" accept="image/*" multiple capture="environment"
+              onChange={(e) => {
+                const all = Array.from(e.target.files ?? []);
+                setPhotos(all.slice(0, MAX_FOTOS));
+                setMsg(all.length > MAX_FOTOS ? `Solo se suben ${MAX_FOTOS} fotos por producto. Se tomaron las primeras.` : null);
+              }}
+            />
+            <span>{photos.length ? `${photos.length} de ${MAX_FOTOS} fotos elegidas` : `Tocá para sacar o elegir hasta ${MAX_FOTOS} fotos`}</span>
           </label>
 
           <label>Nombre<input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} placeholder="Ej: Zapatillas adidas" required /></label>
