@@ -93,3 +93,18 @@ export function whatsappLink(product?: Product) {
     : 'Hola! Quería consultar por los productos de Eva\'s Deco.';
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
+
+/* Comparte el enlace al catálogo: usa el menú nativo si existe, si no abre WhatsApp. */
+export async function shareCatalog() {
+  const url = `${window.location.origin}/productos`;
+  const text = "Mirá el catálogo de Eva's Deco, ropa y accesorios de segunda mano en Río Cuarto:";
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "Eva's Deco", text, url });
+      return;
+    } catch {
+      /* el usuario canceló: seguimos con WhatsApp */
+    }
+  }
+  window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`, '_blank', 'noopener');
+}

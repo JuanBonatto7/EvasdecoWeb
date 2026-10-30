@@ -94,6 +94,8 @@ main { min-height: 70vh; }
 .btn-primary { background: var(--forest); color: var(--paper); }
 .btn-ghost { border-color: var(--forest); color: var(--forest); background: transparent; }
 .btn-whatsapp { background: #25d366; color: #fff; width: 100%; margin: 1.25rem 0 .5rem; }
+.btn-whatsapp-outline { background: var(--paper); color: var(--forest); border: 1.5px solid var(--forest); padding: .6rem 1.1rem; font-size: .9rem; }
+.btn-whatsapp-outline:hover { background: var(--sage-soft); }
 .btn-link { background: none; border: 0; color: var(--clay); cursor: pointer; font: inherit; padding: 0; }
 .link-arrow { color: var(--forest); font-weight: 500; text-decoration: none; }
 

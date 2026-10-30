@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { listProducts } from '../lib/products';
+import { listProducts, shareCatalog } from '../lib/products';
 import type { Product } from '../lib/types';
 
 const TODOS = 'Todos';
@@ -32,8 +32,17 @@ export default function Products() {
   return (
     <section className="container section">
       <div className="section-head">
-        <h1 className="page-title">Productos</h1>
-        <p className="muted">{filtered.length} piezas disponibles</p>
+        <div>
+          <h1 className="page-title">Productos</h1>
+          <p className="muted">{filtered.length} piezas disponibles</p>
+        </div>
+        <button className="btn btn-whatsapp-outline" onClick={shareCatalog}>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" />
+            <path d="M8.2 10.8l7.6-4.6M8.2 13.2l7.6 4.6" />
+          </svg>
+          Compartir catálogo
+        </button>
       </div>
 
       <div className="chips" role="tablist" aria-label="Categorías">
