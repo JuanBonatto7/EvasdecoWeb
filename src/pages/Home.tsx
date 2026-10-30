@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import Bunting from '../components/Bunting';
 import { listProducts } from '../lib/products';
 import type { Product } from '../lib/types';
 
@@ -21,18 +22,23 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <div className="container hero-inner">
-          <p className="hero-kicker">Moda circular · Río Cuarto</p>
-          <h1>
-            Ropa, calzado y accesorios <span className="hero-mark">de segunda mano</span>
-          </h1>
-          <p className="hero-lead">Piezas únicas, elegidas una por una. Cuando se vende, se va: no hay dos iguales.</p>
-          <Link to="/productos" className="btn btn-primary">Ver productos →</Link>
-        </div>
-        <div className="hero-leaf" aria-hidden="true">
-          <svg viewBox="0 0 80 160" width="60" height="120" fill="none" stroke="currentColor" strokeWidth="1.4">
-            <path d="M40 150V20" /><path d="M40 60c-14-6-22-18-20-32 14 4 22 16 20 32Z" /><path d="M40 90c14-6 22-18 20-32-14 4-22 16-20 32Z" />
-          </svg>
+        <Bunting />
+        <div className="container hero-grid">
+          <div className="hero-text">
+            <p className="hero-kicker">¡Pasen y vean! Moda circular · Río Cuarto</p>
+            <h1>
+              Ropa, calzado y accesorios <span className="hero-mark">de segunda mano</span>
+            </h1>
+            <p className="hero-lead">Piezas únicas, elegidas una por una. Cuando se vende, se va: no hay dos iguales.</p>
+            <Link to="/productos" className="btn btn-primary">Ver productos →</Link>
+          </div>
+
+          <div className="collage" aria-hidden="true">
+            <span className="collage-note">¡nuevas piezas!</span>
+            <div className="collage-card c1"><span>Ropa</span></div>
+            <div className="collage-card c2"><span>Calzado</span></div>
+            <div className="collage-card c3"><span>Accesorios</span></div>
+          </div>
         </div>
       </section>
 
