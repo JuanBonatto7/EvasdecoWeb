@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import CategoryIcon, { CATEGORY_ICON } from '../components/CategoryIcon';
 import { listProducts, shareCatalog } from '../lib/products';
 import type { Product } from '../lib/types';
 
@@ -45,16 +46,19 @@ export default function Products() {
         </button>
       </div>
 
-      <div className="chips" role="tablist" aria-label="Categorías">
+      <div className="cat-row" role="tablist" aria-label="Categorías">
         {CATS.map((c) => (
           <button
             key={c}
             role="tab"
             aria-selected={c === cat}
-            className={`chip ${c === cat ? 'chip-active' : ''}`}
+            className={`cat-item ${c === cat ? 'cat-active' : ''}`}
             onClick={() => setParams(c === TODOS ? {} : { cat: c })}
           >
-            {c}
+            <span className="cat-circle">
+              <CategoryIcon name={CATEGORY_ICON[c]} />
+            </span>
+            <span className="cat-label">{c}</span>
           </button>
         ))}
       </div>

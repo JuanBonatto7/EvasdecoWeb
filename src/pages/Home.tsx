@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
 import Bunting from '../components/Bunting';
-import { listProducts } from '../lib/products';
+import { formatPrecio, listProducts } from '../lib/products';
 import type { Product } from '../lib/types';
-
-const CATEGORIES = [
-  { label: 'Ropa', icon: 'hanger' },
-  { label: 'Calzado', icon: 'shoe' },
-  { label: 'Mochilas', icon: 'bag' },
-  { label: 'Accesorios', icon: 'tote' },
-];
 
 export default function Home() {
   const [featured, setFeatured] = useState<Product[]>([]);
 
   useEffect(() => {
-    listProducts().then((all) => setFeatured(all.filter((p) => p.destacado).slice(0, 3)));
+    listProducts().then((all) => {
+      const destacados = all.filter((p) => p.destacado && p.status !== 'vendido');
+      const pool = destacados.length ? destacados : all.filter((p) => p.status !== 'vendido');
+      setFeatured(pool.slice(0, 3));
+    });
   }, []);
+
+  const [star, ...rest] = featured;
 
   return (
     <>
@@ -42,30 +40,41 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section container">
-        <div className="section-head">
-          <h2>Categorías</h2>
-        </div>
-        <div className="categories">
-          {CATEGORIES.map((c) => (
-            <Link key={c.label} to={`/productos?cat=${encodeURIComponent(c.label)}`} className="category">
-              <span className="category-circle">
-                <CategoryIcon name={c.icon} />
-              </span>
-              <span>{c.label}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {featured.length > 0 && (
+      {star && (
         <section className="section container">
-          <div className="section-head">
-            <h2>Recién llegados</h2>
-            <Link to="/productos" className="link-arrow">Ver todo →</Link>
+          <div className="vitrina-head">
+            <h2>Destacados de la semana</h2>
+            <p className="hand-note">las piezas que más queremos mostrarte</p>
           </div>
-          <div className="grid grid-3">
-            {featured.map((p) => <ProductCard key={p.id} product={p} />)}
+
+          <div className="vitrina">
+            <Link to={`/productos/${star.slug}`} className="vitrina-star">
+              <div className="vitrina-photo">
+                {star.fotos[0] ? <img src={star.fotos[0]} alt={star.nombre} /> : <span className="photo-placeholder">{star.categoria}</span>}
+                <span className="sticker">Destacado</span>
+              </div>
+              <PriceTag nombre={star.nombre} precio={formatPrecio(star.precio)} meta={star.talle ? `Talle ${star.talle}` : star.estado} />
+            </Link>
+
+            <div className="vitrina-side">
+              {rest.map((p) => (
+                <Link key={p.id} to={`/productos/${p.slug}`} className="vitrina-small">
+                  <div className="vitrina-small-photo">
+                    {p.fotos[0] ? <img src={p.fotos[0]} alt={p.nombre} /> : <span className="photo-placeholder">{p.categoria}</span>}
+                  </div>
+                  <div className="vitrina-small-info">
+                    <span className="vitrina-cat">{p.categoria}</span>
+                    <h3>{p.nombre}</h3>
+                    <p className="product-meta">{p.talle ? `Talle ${p.talle} · ` : ''}{p.estado}</p>
+                    <p className="product-price">{formatPrecio(p.precio)}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="vitrina-cta">
+            <Link to="/productos" className="btn btn-ghost">Ver todas las piezas →</Link>
           </div>
         </section>
       )}
@@ -76,23 +85,20 @@ export default function Home() {
             <h3>Pasá a verla en persona</h3>
             <p>Presidente Perón Este 596 · Lunes a sábado, 9 a 13 y 16 a 20.</p>
           </div>
-          <Link to="/local" className="btn btn-ghost">Cómo llegar</Link>
+          <Link to="/local" className="btn btn-kraft">Cómo llegar</Link>
         </div>
       </section>
     </>
   );
 }
 
-function CategoryIcon({ name }: { name: string }) {
-  const common = { viewBox: '0 0 48 48', width: 40, height: 40, fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  switch (name) {
-    case 'hanger':
-      return <svg {...common}><path d="M24 14a4 4 0 1 0-4-4" /><path d="M24 14v4" /><path d="M24 18 6 30h36L24 18Z" /></svg>;
-    case 'shoe':
-      return <svg {...common}><path d="M6 30c8 0 10-6 14-8l6 4c4 2 6 2 10 2h6v6H6v-4Z" /><path d="M16 22l4 4" /></svg>;
-    case 'bag':
-      return <svg {...common}><rect x="12" y="16" width="24" height="26" rx="5" /><path d="M18 16v-4a6 6 0 0 1 12 0v4" /></svg>;
-    default:
-      return <svg {...common}><path d="M14 18h20l2 24H12l2-24Z" /><path d="M19 18v-3a5 5 0 0 1 10 0v3" /></svg>;
-  }
+function PriceTag({ nombre, precio, meta }: { nombre: string; precio: string; meta: string }) {
+  return (
+    <div className="price-tag">
+      <span className="price-hole" />
+      <span className="price-meta">{meta}</span>
+      <strong>{nombre}</strong>
+      <span className="price-value">{precio}</span>
+    </div>
+  );
 }
